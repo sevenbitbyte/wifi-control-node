@@ -5,6 +5,7 @@
   "main": "lib/wifi-control.js",
   "license": "MIT",
   "dependencies": {
+    "compare-versions": "^3.1.0",
     "node-wifiscanner2": "^1.1.0",
     "sync-exec": "^0.6.2"
   },
