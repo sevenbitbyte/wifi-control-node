@@ -104,7 +104,7 @@ module.exports =
     #
     # Use nmcli to list visible wifi networks.
     #
-    scanResults = @execSync "nmcli -m multiline dev wifi list ifname #{@WiFiControlSettings.iface}"
+    scanResults = @execSync "nmcli -f all -m multiline dev wifi list ifname #{@WiFiControlSettings.iface}"
     #
     # Parse the results into an array of AP objects to match
     # the structure found in node-wifiscanner2 for win32 and MacOS.
@@ -121,6 +121,8 @@ module.exports =
         catch error
           continue  # this line was not a key: value pair!
         switch KEY
+          when "BSSID"
+            _network.mac = String VALUE
           when "SSID"
             _network.ssid = String VALUE
           when "CHAN"
@@ -129,7 +131,7 @@ module.exports =
             _network.signal_level = String VALUE
           when "SECURITY"
             _network.security = String VALUE
-      networks.push _network unless _network.ssid is "--"
+      networks.push _network unless Object.keys(_network).length <= 0 || _network.ssid is "--"
     return networks
 
   #
