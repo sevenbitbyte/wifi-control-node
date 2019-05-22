@@ -104,7 +104,7 @@ module.exports =
     #
     # Use nmcli to list visible wifi networks.
     #
-    scanResults = @execSync "nmcli -f all -m multiline dev wifi list ifname #{@WiFiControlSettings.iface}"
+    scanResults = @execSync "sudo nmcli d wifi rescan > /dev/null; nmcli -f all -m multiline dev wifi list ifname #{@WiFiControlSettings.iface}"
     #
     # Parse the results into an array of AP objects to match
     # the structure found in node-wifiscanner2 for win32 and MacOS.
@@ -144,7 +144,7 @@ module.exports =
     #
     COMMANDS =
       delete: "nmcli connection delete \"#{_ap.ssid}\""
-      connect: "nmcli dev wifi connect \"#{_ap.ssid}\""
+      connect: "sudo nmcli dev wifi connect \"#{_ap.ssid}\""
     if _ap.password.length
       COMMANDS.connect += " password \"#{_ap.password}\""
     try
